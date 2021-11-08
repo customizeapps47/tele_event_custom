@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'TeleManagerController@index')->middleware(['verify.shopify'])->name('home');
+// Route::resource('tele','TeleManagerController');
+Route::resource('tele','TeleManagerController')->middleware(['verify.shopify']);
+
+Route::post('/webhooks', 'WebhookController@listenWebhooks');
+
+
+
+Route::post('data_request', 'GDPRControleler@customersDataRequest');
+Route::post('redact', 'GDPRControleler@customersRedact');
+Route::post('shop/redact', 'GDPRControleler@shopRedact');
